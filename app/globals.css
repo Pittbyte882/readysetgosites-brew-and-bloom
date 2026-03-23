@@ -1,0 +1,359 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* Spring Blossom Theme (Default) */
+:root,
+[data-season="spring"] {
+  --background: #FFFBF5;
+  --foreground: #4A3728;
+  --card: #FFFFFF;
+  --card-foreground: #4A3728;
+  --popover: #FFFFFF;
+  --popover-foreground: #4A3728;
+  --primary: #E8A4B8;
+  --primary-foreground: #4A3728;
+  --secondary: #9DC183;
+  --secondary-foreground: #2D3B1F;
+  --muted: #F5EDE4;
+  --muted-foreground: #7A6B5A;
+  --accent: #FFF8E7;
+  --accent-foreground: #4A3728;
+  --destructive: #E53E3E;
+  --destructive-foreground: #FFFFFF;
+  --border: #E8DFD3;
+  --input: #E8DFD3;
+  --ring: #E8A4B8;
+  --radius: 0.75rem;
+  
+  /* Custom theme colors */
+  --theme-gradient-start: #FDF2F8;
+  --theme-gradient-mid: #F0FDF4;
+  --theme-gradient-end: #FFFBEB;
+  --theme-particle: #F9A8D4;
+}
+
+/* Summer Citrus Theme */
+[data-season="summer"] {
+  --background: #FFFEF5;
+  --foreground: #2C3E50;
+  --card: #FFFFFF;
+  --card-foreground: #2C3E50;
+  --popover: #FFFFFF;
+  --popover-foreground: #2C3E50;
+  --primary: #FFD93D;
+  --primary-foreground: #2C3E50;
+  --secondary: #4ECDC4;
+  --secondary-foreground: #1A3A37;
+  --muted: #F5F0E1;
+  --muted-foreground: #5D6D7E;
+  --accent: #FFF4E0;
+  --accent-foreground: #2C3E50;
+  --destructive: #E53E3E;
+  --destructive-foreground: #FFFFFF;
+  --border: #E8E4D9;
+  --input: #E8E4D9;
+  --ring: #FFD93D;
+  
+  --theme-gradient-start: #FEF9C3;
+  --theme-gradient-mid: #CCFBF1;
+  --theme-gradient-end: #FFEDD5;
+  --theme-particle: #FCD34D;
+}
+
+/* Autumn Harvest Theme */
+[data-season="autumn"] {
+  --background: #FDF8F3;
+  --foreground: #3C2415;
+  --card: #FFFFFF;
+  --card-foreground: #3C2415;
+  --popover: #FFFFFF;
+  --popover-foreground: #3C2415;
+  --primary: #D2691E;
+  --primary-foreground: #FFFFFF;
+  --secondary: #355E3B;
+  --secondary-foreground: #FFFFFF;
+  --muted: #EDE4D9;
+  --muted-foreground: #6B5344;
+  --accent: #F5DEB3;
+  --accent-foreground: #3C2415;
+  --destructive: #C53030;
+  --destructive-foreground: #FFFFFF;
+  --border: #DDD4C8;
+  --input: #DDD4C8;
+  --ring: #D2691E;
+  
+  --theme-gradient-start: #FFEDD5;
+  --theme-gradient-mid: #DCFCE7;
+  --theme-gradient-end: #FEF3C7;
+  --theme-particle: #EA580C;
+}
+
+/* Winter Frost Theme */
+[data-season="winter"] {
+  --background: #F8FBFD;
+  --foreground: #36454F;
+  --card: #FFFFFF;
+  --card-foreground: #36454F;
+  --popover: #FFFFFF;
+  --popover-foreground: #36454F;
+  --primary: #B8D4E3;
+  --primary-foreground: #1E3A4F;
+  --secondary: #8B2942;
+  --secondary-foreground: #FFFFFF;
+  --muted: #E8EEF2;
+  --muted-foreground: #5A6B78;
+  --accent: #FFFFF0;
+  --accent-foreground: #36454F;
+  --destructive: #C53030;
+  --destructive-foreground: #FFFFFF;
+  --border: #D4DEE6;
+  --input: #D4DEE6;
+  --ring: #B8D4E3;
+  
+  --theme-gradient-start: #E0F2FE;
+  --theme-gradient-mid: #F1F5F9;
+  --theme-gradient-end: #FFF1F2;
+  --theme-particle: #7DD3FC;
+}
+
+@theme inline {
+  --font-sans: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-serif: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-body: var(--font-lato), 'Lato', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    @apply font-semibold tracking-tight;
+  }
+}
+
+/* Organic shape borders */
+.organic-border {
+  border-radius: 60% 40% 40% 60% / 60% 60% 40% 40%;
+}
+
+.organic-border-alt {
+  border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+}
+
+/* Botanical decorative elements */
+.botanical-corner {
+  position: relative;
+}
+
+.botanical-corner::before {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10 90 Q 30 70 50 50 Q 70 30 90 10' stroke='%23E8A4B8' stroke-width='1' fill='none' opacity='0.3'/%3E%3Cpath d='M10 80 Q 35 60 50 50 Q 65 40 80 10' stroke='%239DC183' stroke-width='1' fill='none' opacity='0.3'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Seasonal particle animations */
+@keyframes float-down {
+  0% {
+    transform: translateY(-10vh) rotate(0deg) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg) translateX(100px);
+    opacity: 0;
+  }
+}
+
+@keyframes gentle-sway {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(20px) rotate(5deg);
+  }
+  75% {
+    transform: translateX(-20px) rotate(-5deg);
+  }
+}
+
+@keyframes steam-rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.2);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-40px) scale(1.4);
+    opacity: 0;
+  }
+}
+
+.animate-float-down {
+  animation: float-down linear infinite;
+}
+
+.animate-gentle-sway {
+  animation: gentle-sway 4s ease-in-out infinite;
+}
+
+.animate-steam {
+  animation: steam-rise 2s ease-out infinite;
+}
+
+/* Smooth theme transition */
+html {
+  transition: background-color 0.5s ease, color 0.3s ease;
+}
+
+/* Card hover effects */
+.card-botanical {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-botanical::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.card-botanical:hover::after {
+  transform: scaleX(1);
+}
+
+/* Image overlay for consistent styling */
+.image-botanical {
+  position: relative;
+}
+
+.image-botanical::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.3));
+  pointer-events: none;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: var(--radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+/* Selection styling */
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Container for max-width consistency */
+.container-botanical {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Text gradient for headings */
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Masonry grid for gallery */
+.masonry-grid {
+  column-count: 1;
+  column-gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .masonry-grid {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .masonry-grid {
+    column-count: 3;
+  }
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+
+/* Wavy divider */
+.wavy-divider {
+  height: 60px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%23ffffff' fill-opacity='0.3'/%3E%3C/svg%3E");
+  background-size: cover;
+}
