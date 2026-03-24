@@ -79,7 +79,7 @@ export interface SiteConfig {
   name: string
   tagline: string
   description: string
-  logo: string | null     // path in /public, null = text logo
+  logo: string | null
   favicon: string
 
   // ── Contact & Location ────────────────────────────────────
@@ -118,7 +118,6 @@ export interface SiteConfig {
   autoDetectSeason: boolean
 
   // ── Feature Toggles ───────────────────────────────────────
-  // Set any to false to hide that feature from nav + pages
   features: {
     onlineOrdering: boolean
     loyaltyProgram: boolean
@@ -131,18 +130,33 @@ export interface SiteConfig {
 
   // ── Hero Section ──────────────────────────────────────────
   hero: {
-    backgroundImage: string | null  // path in /public, null = gradient
-    headline: string[]              // each string = one line
+    image: string
+    imageAlt: string
+    headline: string[]
     subheadline: string
     primaryCTA: { label: string; href: string }
     secondaryCTA: { label: string; href: string }
-    // Seasonal badge messages shown under the animated dot
-    seasonalMessages: {
+    seasonal: {
       spring: string
       summer: string
       autumn: string
       winter: string
     }
+  }
+
+  // ── Story Section ─────────────────────────────────────────
+  story: {
+    image: string
+    imageAlt: string
+    estYear: string
+    yearsServing: string
+    headline: string
+    paragraphs: string[]
+    values: {
+      icon: "Coffee" | "Leaf" | "Heart"
+      title: string
+      description: string
+    }[]
   }
 
   // ── Menu ──────────────────────────────────────────────────
@@ -151,7 +165,7 @@ export interface SiteConfig {
   menuItems: MenuItem[]
 
   // ── Featured Drinks (shown on home page) ──────────────────
-  featuredDrinkIds: string[]   // ids from menuItems
+  featuredDrinkIds: string[]
 
   // ── Gallery ───────────────────────────────────────────────
   galleryCategories: string[]
@@ -174,7 +188,7 @@ export interface SiteConfig {
 
   // ── Order Settings ────────────────────────────────────────
   orderSettings: {
-    minPickupTime: number       // minutes
+    minPickupTime: number
     maxAdvanceOrderDays: number
     acceptsDelivery: boolean
     deliveryFee: number
@@ -188,7 +202,7 @@ export const siteConfig: SiteConfig = {
   name:        "Brew & Bloom",
   tagline:     "Where Coffee Meets Nature",
   description: "A botanical café experience where artisanal coffee and fresh blooms create a sanctuary for the senses. Join us for seasonal drinks, fresh pastries, and moments of tranquility.",
-  logo:        null,   // e.g. "/images/logo.svg"
+  logo:        null,
   favicon:     "/favicon.ico",
 
   // ── Contact & Location ────────────────────────────────────
@@ -231,8 +245,8 @@ export const siteConfig: SiteConfig = {
   },
 
   // ── Theme ─────────────────────────────────────────────────
-  defaultTheme:      "spring",
-  autoDetectSeason:  true,
+  defaultTheme:     "spring",
+  autoDetectSeason: true,
 
   // ── Features ──────────────────────────────────────────────
   features: {
@@ -247,21 +261,48 @@ export const siteConfig: SiteConfig = {
 
   // ── Hero ──────────────────────────────────────────────────
   hero: {
-    image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&q=80",
-    imageAlt: "Brew & Bloom café interior",
-    headline:        ["Where Coffee", "Meets Nature"],
-    subheadline:     "A botanical café experience where artisanal coffee and fresh blooms create a sanctuary for the senses.",
-    primaryCTA:      { label: "Order Now",   href: "/order" },
-    secondaryCTA:    { label: "View Menu",   href: "/menu" },
-    // Main splash photo — swap per client
-  // Recommended: 1920x1080px, high quality café/coffee photo
-  
-     seasonal: {
-    spring: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1920&q=80",
-    summer: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=1920&q=80",
-    autumn: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1920&q=80",
-    winter: "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=1920&q=80",
+    image:       "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&q=80",
+    imageAlt:    "Brew & Bloom café interior",
+    headline:    ["Where Coffee", "Meets Nature"],
+    subheadline: "A botanical café experience where artisanal coffee and fresh blooms create a sanctuary for the senses.",
+    primaryCTA:  { label: "Order Now", href: "/order" },
+    secondaryCTA:{ label: "View Menu", href: "/menu" },
+    seasonal: {
+      spring: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1920&q=80",
+      summer: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=1920&q=80",
+      autumn: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1920&q=80",
+      winter: "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=1920&q=80",
+    },
   },
+
+  // ── Story Section ─────────────────────────────────────────
+  story: {
+    image:        "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80",
+    imageAlt:     "Brew & Bloom café interior",
+    estYear:      "2019",
+    yearsServing: "5+",
+    headline:     "Where Every Cup Tells a Story",
+    paragraphs: [
+      "Brew & Bloom was born from a simple dream: to create a space where the art of coffee meets the beauty of nature. What started as a small corner café has blossomed into a beloved community gathering place.",
+      "Our founder, Elena Rosewood, envisioned a sanctuary where every visit feels like a garden retreat. Today, we continue that vision with seasonal menus that celebrate nature's rhythms and botanical touches that bring tranquility to every corner.",
+    ],
+    values: [
+      {
+        icon:        "Coffee",
+        title:       "Artisan Craft",
+        description: "Every cup is handcrafted with precision and care using beans roasted locally.",
+      },
+      {
+        icon:        "Leaf",
+        title:       "Nature Inspired",
+        description: "Our botanical touches bring the garden indoors, creating a sanctuary of calm.",
+      },
+      {
+        icon:        "Heart",
+        title:       "Community First",
+        description: "We're more than a café - we're a gathering place for our neighborhood.",
+      },
+    ],
   },
 
   // ── Menu ──────────────────────────────────────────────────
@@ -360,8 +401,7 @@ export const siteConfig: SiteConfig = {
       description: "Equal parts espresso, steamed milk, and velvety foam. A timeless classic.",
       price:       5.00,
       category:    "Classic Coffee",
-      image:        "https://images.unsplash.com/photo-1708430651927-20e2e1f1e8f7?w=800&q=80",
-      imageAlt:    "Cappuccino with latte art",
+      image:       "https://images.unsplash.com/photo-1708430651927-20e2e1f1e8f7?w=800&q=80",
       tags:        [],
       featured:    false,
       available:   true,
@@ -423,7 +463,7 @@ export const siteConfig: SiteConfig = {
       description: "A spring-only creation with cherry blossom syrup, white chocolate, and steamed milk.",
       price:       7.25,
       category:    "Seasonal Specials",
-      image:      "https://media.istockphoto.com/id/1347028817/photo/drawings-on-coffee-male-and-female-cappuccino-decoration-hot-drink-in-a-paper-cup-picture-of.webp?a=1&b=1&s=612x612&w=0&k=20&c=sFOTpHzkN8TRGBghSHXv8YGkRNvETRhSY5XsErpUvoI=",
+      image:       "https://media.istockphoto.com/id/1347028817/photo/drawings-on-coffee-male-and-female-cappuccino-decoration-hot-drink-in-a-paper-cup-picture-of.webp?a=1&b=1&s=612x612&w=0&k=20&c=sFOTpHzkN8TRGBghSHXv8YGkRNvETRhSY5XsErpUvoI=",
       tags:        ["Spring Only", "Best Seller"],
       featured:    true,
       available:   true,
@@ -532,7 +572,6 @@ export const siteConfig: SiteConfig = {
   ],
 
   // ── Featured Drinks (home page) ───────────────────────────
-  // These ids must match menuItems above
   featuredDrinkIds: [
     "lavender-latte",
     "rose-cold-brew",
