@@ -4,8 +4,17 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "media.istockphoto.com",
+      },
+    ],
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

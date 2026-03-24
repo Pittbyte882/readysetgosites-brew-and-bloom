@@ -17,21 +17,44 @@ export function Hero() {
     winter: "Embrace the frost with comforting winter warmers",
   }
 
+  const heroImage = siteConfig.hero.seasonal[season] || siteConfig.hero.image
+
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-      {/* Background gradient */}
-      <div 
-        className="absolute inset-0 transition-colors duration-700"
-        style={{
-          background: `linear-gradient(135deg, var(--theme-gradient-start) 0%, var(--theme-gradient-mid) 50%, var(--theme-gradient-end) 100%)`,
-        }}
-      />
 
-      {/* Decorative elements */}
-      <div className="absolute top-20 right-10 w-64 h-64 rounded-full opacity-20 blur-3xl bg-primary" />
-      <div className="absolute bottom-20 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl bg-secondary" />
+      {/* ── SPLASH PHOTO ── */}
+      <div className="absolute inset-0">
+        <img
+          src={heroImage}
+          alt={siteConfig.hero.imageAlt}
+          className="w-full h-full object-cover transition-opacity duration-700"
+        />
+        {/* Gradient overlay */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(
+              135deg,
+              rgba(0,0,0,0.75) 0%,
+              rgba(0,0,0,0.5) 50%,
+              rgba(0,0,0,0.2) 100%
+            )`,
+          }}
+        />
+        {/* Bottom wave mask */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(
+              to bottom,
+              transparent 60%,
+              rgba(0,0,0,0.4) 100%
+            )`,
+          }}
+        />
+      </div>
 
-      {/* Organic shape decorations */}
+      {/* Organic bottom wave shape */}
       <svg
         className="absolute bottom-0 left-0 w-full h-32 text-background"
         preserveAspectRatio="none"
@@ -44,11 +67,13 @@ export function Hero() {
         />
       </svg>
 
+      {/* ── MAIN CONTENT ── */}
       <div className="container-botanical relative z-10 pt-24 pb-32">
         <div className="max-w-3xl">
+
           {/* Seasonal badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background/80 backdrop-blur-sm border mb-6 animate-fade-in">
-            <span 
+            <span
               className="w-2 h-2 rounded-full animate-pulse"
               style={{ backgroundColor: theme.primary }}
             />
@@ -58,13 +83,21 @@ export function Hero() {
           </div>
 
           {/* Main heading */}
-          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-white drop-shadow-lg">
             <span className="block text-balance">Where Coffee</span>
-            <span className="block text-gradient">Meets Nature</span>
+            <span
+              className="block"
+              style={{
+                color: theme.primary,
+                textShadow: "0 2px 20px rgba(0,0,0,0.5)",
+              }}
+            >
+              Meets Nature
+            </span>
           </h1>
 
           {/* Description */}
-          <p className="text-lg md:text-xl text-muted-foreground max-w-xl mb-8 text-pretty">
+          <p className="text-lg md:text-xl max-w-xl mb-8 text-pretty text-white/80 drop-shadow">
             {siteConfig.description}
           </p>
 
@@ -76,7 +109,18 @@ export function Hero() {
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="rounded-full">
+            <Button
+              size="lg"
+              variant="outline"
+              asChild
+              className="rounded-full"
+              style={{
+                background: "rgba(255,255,255,0.1)",
+                backdropFilter: "blur(10px)",
+                borderColor: "rgba(255,255,255,0.4)",
+                color: "white",
+              }}
+            >
               <Link href="/menu">
                 View Menu
               </Link>
@@ -84,43 +128,62 @@ export function Hero() {
           </div>
 
           {/* Quick info */}
-          <div className="flex flex-wrap gap-6 text-sm text-muted-foreground">
+          <div className="flex flex-wrap gap-6 text-sm text-white/70">
             <div className="flex items-center gap-2">
               <Clock className="h-4 w-4" />
               <span>Open Today: {siteConfig.hours.monday}</span>
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4" />
-              <span>{siteConfig.address.city}, {siteConfig.address.state}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Hero image/illustration area */}
-        <div className="hidden lg:block absolute right-8 top-1/2 -translate-y-1/2 w-[400px] h-[500px]">
-          <div className="relative w-full h-full">
-            {/* Coffee cup illustration */}
-            <div className="absolute inset-0 rounded-[60px_60px_40px_40px] bg-gradient-to-br from-primary/30 to-secondary/30 rotate-6" />
-            <div className="absolute inset-4 rounded-[50px_50px_35px_35px] bg-background/80 backdrop-blur-sm flex items-center justify-center">
-              <div className="text-center">
-                <div className="relative inline-block">
-                  {/* Steam animation */}
-                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex gap-2">
-                    <div className="w-2 h-8 rounded-full bg-muted animate-steam" style={{ animationDelay: "0s" }} />
-                    <div className="w-2 h-6 rounded-full bg-muted animate-steam" style={{ animationDelay: "0.5s" }} />
-                    <div className="w-2 h-10 rounded-full bg-muted animate-steam" style={{ animationDelay: "1s" }} />
-                  </div>
-                  <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                    <span className="font-serif text-5xl font-bold text-white">B&B</span>
-                  </div>
-                </div>
-                <p className="mt-6 font-serif text-xl font-semibold">{theme.name}</p>
-                <p className="text-sm text-muted-foreground">Current Season</p>
-              </div>
+              <span>
+                {siteConfig.address.city}, {siteConfig.address.state}
+              </span>
             </div>
           </div>
         </div>
       </div>
+
+      {/* ── FLOATING SEASON CARD — outside container, relative to section ── */}
+      <div className="hidden lg:block absolute right-8 top-28 z-10 w-[300px]">
+        <div
+          className="rounded-3xl p-8 text-center"
+          style={{
+            background: "rgba(255,255,255,0.12)",
+            backdropFilter: "blur(20px)",
+            border: "1px solid rgba(255,255,255,0.2)",
+          }}
+        >
+          <div
+            className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"
+            style={{ background: theme.primary }}
+          >
+            <span className="font-serif text-2xl font-bold text-white">
+              B&B
+            </span>
+          </div>
+          <p className="font-serif text-xl font-semibold mb-1 text-white">
+            {theme.name}
+          </p>
+          <p className="text-sm text-white/60 mb-6">
+            Current Season
+          </p>
+          <div
+            className="h-px w-full mb-6"
+            style={{ background: "rgba(255,255,255,0.2)" }}
+          />
+          <div className="space-y-2 text-left">
+            <div className="flex justify-between text-xs text-white/70">
+              <span>Today</span>
+              <span className="text-white">{siteConfig.hours.monday}</span>
+            </div>
+            <div className="flex justify-between text-xs text-white/70">
+              <span>Location</span>
+              <span className="text-white">{siteConfig.address.city}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </section>
   )
 }

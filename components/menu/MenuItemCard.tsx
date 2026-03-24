@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { Plus, Sparkles, Leaf } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -12,6 +13,7 @@ import { ItemCustomizer } from "./ItemCustomizer"
 interface MenuItemCardProps {
   item: MenuItem
   onAddToCart?: boolean
+
 }
 
 export function MenuItemCard({ item, onAddToCart = true }: MenuItemCardProps) {
@@ -25,16 +27,26 @@ export function MenuItemCard({ item, onAddToCart = true }: MenuItemCardProps) {
           "hover:shadow-lg hover:-translate-y-0.5"
         )}
       >
-        {/* Image area */}
-        <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-20 h-20 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center">
-              <span className="font-serif text-2xl font-bold text-gradient">
-                {item.name.charAt(0)}
-              </span>
-            </div>
-          </div>
-          
+       
+
+          {/* Image area */}
+          <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
+            {item.image ? (
+              <Image
+                src={item.image}
+                alt={item.imageAlt ?? item.name}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center">
+                  <span className="font-serif text-2xl font-bold text-gradient">
+                    {item.name.charAt(0)}
+                  </span>
+                </div>
+              </div>
+            )}
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
             {item.isSignature && (
