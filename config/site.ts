@@ -7,7 +7,7 @@ export interface MenuItem {
   price: number
   category: string
   image: string | null
-  tags: string[]          // e.g. ["Vegan", "Gluten-Free"]
+  tags: string[]
   featured: boolean
   available: boolean
   customizations?: {
@@ -21,22 +21,26 @@ export interface GalleryItem {
   id: string
   image: string
   alt: string
-  category: string        // e.g. "Drinks", "Food", "Space", "Events"
+  category: string
   caption?: string
+  featured?: boolean
 }
 
-export interface Event {
+export interface CafeEvent {
   id: string
   title: string
   description: string
-  date: string            // ISO string e.g. "2025-04-12"
-  time: string            // e.g. "6:00 PM - 8:00 PM"
+  longDescription?: string
+  date: string
+  startTime: string
+  endTime: string
+  type: "music" | "workshop" | "tasting" | "seasonal" | "community"
   image: string | null
-  price: number | null    // null = free
-  capacity: number | null // null = unlimited
-  category: string        // e.g. "Workshop", "Live Music", "Tasting"
-  registrationRequired: boolean
-  registrationLink?: string
+  capacity?: number
+  price?: number
+  isFree: boolean
+  requiresReservation: boolean
+  host?: string
 }
 
 export interface TeamMember {
@@ -172,7 +176,7 @@ export interface SiteConfig {
   gallery: GalleryItem[]
 
   // ── Events ────────────────────────────────────────────────
-  events: Event[]
+  events: CafeEvent[]
 
   // ── Team ──────────────────────────────────────────────────
   team: TeamMember[]
@@ -250,23 +254,23 @@ export const siteConfig: SiteConfig = {
 
   // ── Features ──────────────────────────────────────────────
   features: {
-    onlineOrdering: true,
-    loyaltyProgram: true,
-    catering:       true,
-    blog:           true,
-    events:         true,
-    gallery:        true,
-    newsletter:     true,
-  },
+  onlineOrdering: true,
+  loyaltyProgram: false,  // ← changed
+  catering:       false,  // ← changed
+  blog:           true,
+  events:         true,
+  gallery:        true,
+  newsletter:     true,
+},
 
   // ── Hero ──────────────────────────────────────────────────
   hero: {
-    image:       "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&q=80",
-    imageAlt:    "Brew & Bloom café interior",
-    headline:    ["Where Coffee", "Meets Nature"],
-    subheadline: "A botanical café experience where artisanal coffee and fresh blooms create a sanctuary for the senses.",
-    primaryCTA:  { label: "Order Now", href: "/order" },
-    secondaryCTA:{ label: "View Menu", href: "/menu" },
+    image:        "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&q=80",
+    imageAlt:     "Brew & Bloom café interior",
+    headline:     ["Where Coffee", "Meets Nature"],
+    subheadline:  "A botanical café experience where artisanal coffee and fresh blooms create a sanctuary for the senses.",
+    primaryCTA:   { label: "Order Now",  href: "/order" },
+    secondaryCTA: { label: "View Menu",  href: "/menu" },
     seasonal: {
       spring: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1920&q=80",
       summer: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=1920&q=80",
@@ -358,7 +362,7 @@ export const siteConfig: SiteConfig = {
       description: "Ceremonial grade matcha whisked with butterfly pea flower and vanilla oat milk.",
       price:       6.75,
       category:    "Signature Drinks",
-      image:       "https://images.unsplash.com/photo-1565117711038-1e0a80eed005?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=alice-pasqual-u_8m7fCJQmw-unsplash.jpg",
+      image:       "https://images.unsplash.com/photo-1565117711038-1e0a80eed005?w=800&q=80",
       tags:        ["Vegan", "Gluten-Free", "Best Seller"],
       featured:    true,
       available:   true,
@@ -387,7 +391,7 @@ export const siteConfig: SiteConfig = {
       description: "Single or double shot of our house-blend espresso, sourced from small-batch roasters.",
       price:       3.50,
       category:    "Classic Coffee",
-      image:       "https://images.unsplash.com/photo-1485808191679-5f86510681a2?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=jeremy-yap-jn-HaGWe4yw-unsplash.jpg",
+      image:       "https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=800&q=80",
       tags:        ["Vegan", "Dairy-Free"],
       featured:    false,
       available:   true,
@@ -417,7 +421,7 @@ export const siteConfig: SiteConfig = {
       description: "Slow-steeped for 24 hours for a smooth, naturally sweet concentrate.",
       price:       5.50,
       category:    "Classic Coffee",
-      image:       "https://images.unsplash.com/photo-1531835207745-506a1bc035d8?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=nathan-dumlao-_Wm6mhXO9rk-unsplash.jpg",
+      image:       "https://images.unsplash.com/photo-1531835207745-506a1bc035d8?w=800&q=80",
       tags:        ["Vegan", "Dairy-Free"],
       featured:    false,
       available:   true,
@@ -435,7 +439,7 @@ export const siteConfig: SiteConfig = {
       description: "Loose-leaf chamomile with dried lavender and rose petals. Served hot or iced.",
       price:       4.50,
       category:    "Tea & Botanicals",
-      image:       "https://images.unsplash.com/photo-1632639521806-cead484cc369?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=catia-climovich-iiiq__zzdI8-unsplash.jpg",
+      image:       "https://images.unsplash.com/photo-1632639521806-cead484cc369?w=800&q=80",
       tags:        ["Vegan", "Dairy-Free", "Gluten-Free", "Caffeine-Free"],
       featured:    false,
       available:   true,
@@ -450,7 +454,7 @@ export const siteConfig: SiteConfig = {
       description: "A magical color-changing tea that shifts from blue to purple with a squeeze of lemon.",
       price:       5.00,
       category:    "Tea & Botanicals",
-      image:       "https://images.unsplash.com/photo-1708455398647-9f79425512fa?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=abhishek-sapkal-Qnop6E82XnE-unsplash.jpg",
+      image:       "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800&q=80",
       tags:        ["Vegan", "Dairy-Free", "Caffeine-Free"],
       featured:    true,
       available:   true,
@@ -481,7 +485,7 @@ export const siteConfig: SiteConfig = {
       description: "Buttery scone infused with lavender and drizzled with local wildflower honey.",
       price:       4.25,
       category:    "Fresh Pastries",
-      image:       "https://images.unsplash.com/photo-1731685009078-72a29bec9719?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=gennady-zakharin-TWRG5dx2Ebo-unsplash.jpg",
+      image:       "https://images.unsplash.com/photo-1731685009078-72a29bec9719?w=800&q=80",
       tags:        ["Vegetarian"],
       featured:    true,
       available:   true,
@@ -503,7 +507,7 @@ export const siteConfig: SiteConfig = {
       description: "Moist banana bread made with flax eggs and coconut oil, studded with toasted walnuts.",
       price:       4.00,
       category:    "Fresh Pastries",
-      image:       "https://images.unsplash.com/photo-1632931057819-4eefffa8e007?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=cody-chan-a0fBbS8RZAo-unsplash.jpg",
+      image:       "https://images.unsplash.com/photo-1621955964441-c173e01c135b?w=800&q=80",
       tags:        ["Vegan"],
       featured:    false,
       available:   true,
@@ -516,18 +520,18 @@ export const siteConfig: SiteConfig = {
       description: "Smashed avocado on sourdough with edible flowers, microgreens, and everything seasoning.",
       price:       12.00,
       category:    "Breakfast",
-      image:       "https://images.unsplash.com/photo-1650092194571-d3c1534562be?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=jasper-gribble-8RxCzAKmSOA-unsplash.jpg",
+      image:       "https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=800&q=80",
       tags:        ["Vegan", "Best Seller"],
       featured:    false,
       available:   true,
     },
     {
-      id:          "açai-bowl",
+      id:          "acai-bowl",
       name:        "Garden Açai Bowl",
       description: "Thick açai base topped with seasonal fruit, house-made granola, and edible flowers.",
       price:       13.50,
       category:    "Breakfast",
-      image:       "https://images.unsplash.com/photo-1602881916963-5daf2d97c06e?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=david-foodphototasty-zhkhwGrqilw-unsplash.jpg",
+      image:       "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800&q=80",
       tags:        ["Vegan", "Gluten-Free"],
       featured:    false,
       available:   true,
@@ -564,7 +568,7 @@ export const siteConfig: SiteConfig = {
       description: "Creamy cheesecake with rose water filling on a pistachio crust, garnished with dried petals.",
       price:       8.50,
       category:    "Desserts",
-      image:       "https://images.unsplash.com/photo-1716579866950-54abe7d4286f?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=aleksandra-gencheva-N9pb8kJ1nsI-unsplash.jpg",
+      image:       "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80",
       tags:        ["Vegetarian", "Best Seller"],
       featured:    true,
       available:   true,
@@ -580,74 +584,327 @@ export const siteConfig: SiteConfig = {
   ],
 
   // ── Gallery ───────────────────────────────────────────────
-  galleryCategories: ["All", "Drinks", "Food", "Space", "Events"],
+  // To swap photos: just replace the image URL. Recommended size: 800x600px.
+  // Categories: "interior" | "food" | "drinks" | "events" | "team" | "seasonal"
+  galleryCategories: ["All", "Interior", "Drinks", "Food", "Events", "Seasonal"],
   gallery: [
-    { id: "g1",  image: "/images/gallery/latte-art.jpg",     alt: "Lavender latte art",          category: "Drinks",  caption: "Our signature lavender honey latte" },
-    { id: "g2",  image: "/images/gallery/cafe-interior.jpg", alt: "Café interior",               category: "Space",   caption: "The main dining room in spring" },
-    { id: "g3",  image: "/images/gallery/pastries.jpg",      alt: "Fresh pastry selection",      category: "Food",    caption: "Freshly baked every morning" },
-    { id: "g4",  image: "/images/gallery/cold-brew.jpg",     alt: "Rose cold brew",              category: "Drinks",  caption: "Rose cold brew with cardamom" },
-    { id: "g5",  image: "/images/gallery/garden.jpg",        alt: "Outdoor garden seating",      category: "Space",   caption: "Our bloom garden terrace" },
-    { id: "g6",  image: "/images/gallery/workshop.jpg",      alt: "Latte art workshop",          category: "Events",  caption: "Monthly latte art workshops" },
-    { id: "g7",  image: "/images/gallery/matcha.jpg",        alt: "Botanical matcha",            category: "Drinks",  caption: "Butterfly pea flower matcha" },
-    { id: "g8",  image: "/images/gallery/avocado-toast.jpg", alt: "Botanical avocado toast",     category: "Food",    caption: "Garden fresh avocado toast" },
-    { id: "g9",  image: "/images/gallery/bar.jpg",           alt: "The coffee bar",              category: "Space",   caption: "Where the magic happens" },
-    { id: "g10", image: "/images/gallery/cheesecake.jpg",    alt: "Rose pistachio cheesecake",   category: "Food",    caption: "Our most requested dessert" },
-    { id: "g11", image: "/images/gallery/tasting.jpg",       alt: "Seasonal tasting event",      category: "Events",  caption: "Autumn harvest tasting evening" },
-    { id: "g12", image: "/images/gallery/flowers.jpg",       alt: "Fresh floral arrangements",   category: "Space",   caption: "Changed weekly by Sofia" },
+    // ── Interior ──
+    {
+      id:       "interior-1",
+      image:    "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80",
+      alt:      "Main seating area with hanging plants and natural light",
+      category: "Interior",
+      caption:  "Our main seating area bathed in natural light",
+      featured: true,
+    },
+    {
+      id:       "interior-2",
+      image:    "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=800&q=80",
+      alt:      "Coffee bar with espresso machine and botanical display",
+      category: "Interior",
+      caption:  "The heart of Brew & Bloom — our coffee bar",
+    },
+    {
+      id:       "interior-3",
+      image:    "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=800&q=80",
+      alt:      "Cozy reading corner with vintage armchairs",
+      category: "Interior",
+      caption:  "Our favorite reading nook",
+    },
+    {
+      id:       "interior-4",
+      image:    "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=800&q=80",
+      alt:      "Window seating with view of garden",
+      category: "Interior",
+    },
+
+    // ── Drinks ──
+    {
+      id:       "drinks-1",
+      image:    "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=800&q=80",
+      alt:      "Lavender latte with rose petals",
+      category: "Drinks",
+      caption:  "Our signature Lavender Honey Latte",
+      featured: true,
+    },
+    {
+      id:       "drinks-2",
+      image:    "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80",
+      alt:      "Intricate latte art rosetta",
+      category: "Drinks",
+      caption:  "Every cup is a work of art",
+    },
+    {
+      id:       "drinks-3",
+      image:    "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&q=80",
+      alt:      "Tropical cold brew with coconut",
+      category: "Drinks",
+      caption:  "Rose Cold Brew with cardamom",
+    },
+    {
+      id:       "drinks-4",
+      image:    "https://images.unsplash.com/photo-1565117711038-1e0a80eed005?w=800&q=80",
+      alt:      "Ceremonial matcha in ceramic bowl",
+      category: "Drinks",
+      caption:  "Ceremonial grade matcha",
+    },
+
+    // ── Food ──
+    {
+      id:       "food-1",
+      image:    "https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=800&q=80",
+      alt:      "Garden avocado toast with microgreens and edible flowers",
+      category: "Food",
+      caption:  "Botanical Avocado Toast",
+      featured: true,
+    },
+    {
+      id:       "food-2",
+      image:    "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&q=80",
+      alt:      "Fresh pastry display",
+      category: "Food",
+      caption:  "Baked fresh every morning",
+    },
+    {
+      id:       "food-3",
+      image:    "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800&q=80",
+      alt:      "Garden açai bowl with fresh berries",
+      category: "Food",
+      caption:  "Garden Açai Bowl",
+    },
+    {
+      id:       "food-4",
+      image:    "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80",
+      alt:      "Rose pistachio cheesecake slice",
+      category: "Food",
+      caption:  "Rose Pistachio Cheesecake",
+    },
+
+    // ── Events ──
+    {
+      id:       "events-1",
+      image:    "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80",
+      alt:      "Jazz trio performing at evening event",
+      category: "Events",
+      caption:  "Jazz night in the garden",
+      featured: true,
+    },
+    {
+      id:       "events-2",
+      image:    "https://images.unsplash.com/photo-1526389157-6a5cc2bb4afa?w=800&q=80",
+      alt:      "Latte art workshop in progress",
+      category: "Events",
+      caption:  "Monthly latte art workshops",
+    },
+    {
+      id:       "events-3",
+      image:    "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&q=80",
+      alt:      "Coffee cupping session",
+      category: "Events",
+      caption:  "Monthly origin tastings",
+    },
+
+    // ── Seasonal ──
+    {
+      id:       "seasonal-1",
+      image:    "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+      alt:      "Spring cherry blossom decorations",
+      category: "Seasonal",
+      caption:  "Spring at Brew & Bloom",
+      featured: true,
+    },
+    {
+      id:       "seasonal-2",
+      image:    "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&q=80",
+      alt:      "Summer garden patio",
+      category: "Seasonal",
+      caption:  "Summer vibes on the patio",
+    },
+    {
+      id:       "seasonal-3",
+      image:    "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80",
+      alt:      "Autumn harvest decorations",
+      category: "Seasonal",
+      caption:  "Autumn harvest celebration",
+    },
+    {
+      id:       "seasonal-4",
+      image:    "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=800&q=80",
+      alt:      "Cozy winter ambiance with fairy lights",
+      category: "Seasonal",
+      caption:  "Winter wonderland indoors",
+    },
   ],
 
   // ── Events ────────────────────────────────────────────────
+  // To swap event images: replace the image URL. Use null for no image (shows gradient placeholder).
   events: [
     {
-      id:                   "latte-art-april",
-      title:                "Latte Art Workshop",
-      description:          "Learn the basics of milk steaming and latte art from our head barista. All skill levels welcome. Includes two practice drinks and a take-home guide.",
-      date:                 "2025-04-12",
-      time:                 "10:00 AM - 12:00 PM",
-      image:                null,
-      price:                45,
-      capacity:             10,
-      category:             "Workshop",
-      registrationRequired: true,
-      registrationLink:     "/contact",
+      id:          "spring-menu-launch",
+      title:       "Spring Menu Launch Party",
+      description: "Be the first to taste our new Cherry Blossom Latte and Spring Garden specialties",
+      longDescription: "Join us as we unveil our spring menu featuring delicate floral flavors and fresh seasonal ingredients. Enjoy complimentary samples, live acoustic music, and a chance to win free drinks for a month!",
+      date:        "2026-03-21",
+      startTime:   "5:00 PM",
+      endTime:     "8:00 PM",
+      type:        "seasonal",
+      image:       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+      capacity:    50,
+      isFree:      true,
+      requiresReservation: true,
     },
     {
-      id:                   "spring-tasting",
-      title:                "Spring Menu Tasting",
-      description:          "Be the first to try our new spring menu. Enjoy tastings of 6 new drinks and 4 new food items paired with short descriptions from our head chef.",
-      date:                 "2025-04-20",
-      time:                 "3:00 PM - 5:00 PM",
-      image:                null,
-      price:                25,
-      capacity:             20,
-      category:             "Tasting",
-      registrationRequired: true,
-      registrationLink:     "/contact",
+      id:          "latte-art-workshop-march",
+      title:       "Latte Art Workshop",
+      description: "Learn the basics of pouring beautiful latte art with our head barista",
+      longDescription: "In this hands-on workshop, you'll learn the fundamentals of steaming milk and pouring basic latte art designs including hearts, tulips, and rosettas. All materials provided, and you take home a pound of our house blend!",
+      date:        "2026-03-28",
+      startTime:   "10:00 AM",
+      endTime:     "12:00 PM",
+      type:        "workshop",
+      image:       "https://images.unsplash.com/photo-1526389157-6a5cc2bb4afa?w=800&q=80",
+      capacity:    12,
+      price:       45,
+      isFree:      false,
+      requiresReservation: true,
+      host:        "Elena Rosewood",
     },
     {
-      id:                   "live-jazz-may",
-      title:                "Jazz & Blooms Evening",
-      description:          "Unwind with live jazz, seasonal cocktails, and a blooming café atmosphere. No cover charge — just great music and great coffee.",
-      date:                 "2025-05-03",
-      time:                 "6:00 PM - 9:00 PM",
-      image:                null,
-      price:                null,
-      capacity:             null,
-      category:             "Live Music",
-      registrationRequired: false,
+      id:          "jazz-night-april",
+      title:       "Jazz in the Garden",
+      description: "Live jazz trio performing smooth spring melodies",
+      date:        "2026-04-04",
+      startTime:   "7:00 PM",
+      endTime:     "10:00 PM",
+      type:        "music",
+      image:       "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80",
+      isFree:      true,
+      requiresReservation: false,
     },
     {
-      id:                   "botanical-drawing",
-      title:                "Botanical Drawing Class",
-      description:          "Guided botanical illustration class with local artist Mia Harlow. Materials provided. Coffee and pastries included in the ticket price.",
-      date:                 "2025-05-17",
-      time:                 "11:00 AM - 2:00 PM",
-      image:                null,
-      price:                65,
-      capacity:             8,
-      category:             "Workshop",
-      registrationRequired: true,
-      registrationLink:     "/contact",
+      id:          "plant-swap",
+      title:       "Community Plant Swap",
+      description: "Bring a plant, take a plant! Connect with fellow plant lovers",
+      longDescription: "Our semi-annual plant swap is back! Bring your plant cuttings, seedlings, or potted plants to trade with other green thumbs. Our floral designer Sofia will be offering free repotting tips.",
+      date:        "2026-04-12",
+      startTime:   "11:00 AM",
+      endTime:     "3:00 PM",
+      type:        "community",
+      image:       "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80",
+      isFree:      true,
+      requiresReservation: false,
+    },
+    {
+      id:          "coffee-origins-april",
+      title:       "Coffee Origins: Ethiopia Tasting",
+      description: "Explore the birthplace of coffee with a guided tasting flight",
+      longDescription: "Journey to Ethiopia, the birthplace of coffee, through our curated tasting flight featuring three distinct Ethiopian origins. Learn about processing methods, flavor profiles, and brewing techniques.",
+      date:        "2026-04-19",
+      startTime:   "2:00 PM",
+      endTime:     "4:00 PM",
+      type:        "tasting",
+      image:       "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&q=80",
+      capacity:    20,
+      price:       35,
+      isFree:      false,
+      requiresReservation: true,
+      host:        "Elena Rosewood",
+    },
+    {
+      id:          "acoustic-evening-april",
+      title:       "Acoustic Evening",
+      description: "Local singer-songwriters showcase their original music",
+      date:        "2026-04-25",
+      startTime:   "7:00 PM",
+      endTime:     "9:30 PM",
+      type:        "music",
+      image:       "https://images.unsplash.com/photo-1501612780327-45045538702b?w=800&q=80",
+      isFree:      true,
+      requiresReservation: false,
+    },
+    {
+      id:          "mothers-day-brunch",
+      title:       "Mother's Day Botanical Brunch",
+      description: "Treat mom to a special brunch surrounded by blooms",
+      longDescription: "Celebrate the special women in your life with our prix-fixe brunch menu featuring seasonal dishes, bottomless mimosas, and live harp music. Each mom receives a complimentary succulent arrangement.",
+      date:        "2026-05-10",
+      startTime:   "10:00 AM",
+      endTime:     "2:00 PM",
+      type:        "seasonal",
+      image:       "https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=800&q=80",
+      capacity:    40,
+      price:       55,
+      isFree:      false,
+      requiresReservation: true,
+    },
+    {
+      id:          "terrarium-workshop",
+      title:       "DIY Terrarium Workshop",
+      description: "Create your own mini garden with our floral designer",
+      longDescription: "Learn the art of terrarium building with our in-house floral designer Sofia. Choose from a variety of succulents, moss, and decorative elements to create your own mini ecosystem. All materials included.",
+      date:        "2026-05-17",
+      startTime:   "3:00 PM",
+      endTime:     "5:00 PM",
+      type:        "workshop",
+      image:       "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80",
+      capacity:    15,
+      price:       65,
+      isFree:      false,
+      requiresReservation: true,
+      host:        "Sofia Mendez",
+    },
+    {
+      id:          "poetry-open-mic",
+      title:       "Poetry & Pour Over",
+      description: "Open mic poetry night with featured poet",
+      date:        "2026-05-23",
+      startTime:   "6:30 PM",
+      endTime:     "9:00 PM",
+      type:        "community",
+      image:       "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&q=80",
+      isFree:      true,
+      requiresReservation: false,
+    },
+    {
+      id:          "summer-menu-launch",
+      title:       "Summer Sips Launch",
+      description: "Cool down with our new tropical and refreshing summer drinks",
+      date:        "2026-06-20",
+      startTime:   "4:00 PM",
+      endTime:     "8:00 PM",
+      type:        "seasonal",
+      image:       "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&q=80",
+      isFree:      true,
+      requiresReservation: false,
+    },
+    {
+      id:          "cold-brew-class",
+      title:       "Cold Brew Masterclass",
+      description: "Learn to make perfect cold brew at home",
+      longDescription: "Discover the secrets to crafting smooth, flavorful cold brew coffee at home. We'll cover different brewing methods, ratios, and infusion techniques. Take home a cold brew kit!",
+      date:        "2026-06-27",
+      startTime:   "11:00 AM",
+      endTime:     "1:00 PM",
+      type:        "workshop",
+      image:       "https://images.unsplash.com/photo-1531835207745-506a1bc035d8?w=800&q=80",
+      capacity:    12,
+      price:       40,
+      isFree:      false,
+      requiresReservation: true,
+      host:        "Elena Rosewood",
+    },
+    {
+      id:          "summer-movie-night",
+      title:       "Garden Movie Night",
+      description: "Outdoor screening of a classic film under the stars",
+      date:        "2026-07-18",
+      startTime:   "8:30 PM",
+      endTime:     "11:00 PM",
+      type:        "community",
+      image:       "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80",
+      isFree:      true,
+      requiresReservation: true,
+      capacity:    60,
     },
   ],
 
@@ -658,40 +915,40 @@ export const siteConfig: SiteConfig = {
       name:  "Elena Rosewood",
       role:  "Founder & Head Barista",
       bio:   "With 15 years of coffee expertise and a passion for botanical arts, Elena created Brew & Bloom as a sanctuary where nature and coffee culture intertwine.",
-      image: null,
+      image: "https://images.unsplash.com/photo-1693846720589-48d7981a667e?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=alan-morales-2kjtYWFgvvo-unsplash.jpg",
     },
     {
       id:    "2",
       name:  "Marcus Chen",
       role:  "Head Chef",
       bio:   "Marcus brings farm-to-table philosophy to every dish, sourcing ingredients from local gardens and creating seasonal menus that celebrate nature's bounty.",
-      image: null,
+      image: "https://images.unsplash.com/photo-1599548713969-3460f26dc07e?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=azhar-khairi-ZP1WazcIGBA-unsplash.jpg",
     },
     {
       id:    "3",
       name:  "Sofia Mendez",
       role:  "Floral Designer",
       bio:   "Sofia curates our botanical installations and ensures every corner of Brew & Bloom blooms with seasonal beauty and natural harmony.",
-      image: null,
+      image: "https://images.unsplash.com/photo-1677715156712-68fd84957185?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=lance-reis-gF-_p91sd5w-unsplash.jpg",
     },
     {
       id:    "4",
       name:  "James Wright",
       role:  "Events Coordinator",
       bio:   "James orchestrates our workshops, live music nights, and private events, creating memorable experiences that bring our community together.",
-      image: null,
+      image: "https://images.unsplash.com/photo-1696992443078-ee65259e56e6?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=maria-fernanda-pissioli-StsZKCueRy8-unsplash.jpg",
     },
   ],
 
   // ── Catering Packages ─────────────────────────────────────
   cateringPackages: [
     {
-      id:              "intimate",
-      name:            "Garden Gathering",
-      description:     "Perfect for small meetings, book clubs, or intimate celebrations.",
-      minGuests:       8,
-      maxGuests:       20,
-      pricePerPerson:  25,
+      id:             "intimate",
+      name:           "Garden Gathering",
+      description:    "Perfect for small meetings, book clubs, or intimate celebrations.",
+      minGuests:      8,
+      maxGuests:      20,
+      pricePerPerson: 25,
       includes: [
         "Selection of 3 signature beverages",
         "Assorted pastry platter",
@@ -701,12 +958,12 @@ export const siteConfig: SiteConfig = {
       ],
     },
     {
-      id:              "corporate",
-      name:            "Bloom & Business",
-      description:     "Elevate your corporate events with artisanal refreshments.",
-      minGuests:       20,
-      maxGuests:       50,
-      pricePerPerson:  35,
+      id:             "corporate",
+      name:           "Bloom & Business",
+      description:    "Elevate your corporate events with artisanal refreshments.",
+      minGuests:      20,
+      maxGuests:      50,
+      pricePerPerson: 35,
       includes: [
         "Full beverage station with barista",
         "Breakfast or lunch menu selection",
@@ -717,12 +974,12 @@ export const siteConfig: SiteConfig = {
       ],
     },
     {
-      id:              "celebration",
-      name:            "Botanical Celebration",
-      description:     "Create unforgettable moments for weddings, showers, and milestone events.",
-      minGuests:       30,
-      maxGuests:       100,
-      pricePerPerson:  55,
+      id:             "celebration",
+      name:           "Botanical Celebration",
+      description:    "Create unforgettable moments for weddings, showers, and milestone events.",
+      minGuests:      30,
+      maxGuests:      100,
+      pricePerPerson: 55,
       includes: [
         "Customized menu consultation",
         "Premium beverage service",
@@ -738,28 +995,28 @@ export const siteConfig: SiteConfig = {
   // ── Loyalty Tiers ─────────────────────────────────────────
   loyaltyTiers: [
     {
-      name:             "Seedling",
-      pointsRequired:   0,
-      benefits:         ["1 point per $1 spent", "Birthday reward", "Early access to seasonal menus"],
-      color:            "#9DC183",
+      name:            "Seedling",
+      pointsRequired:  0,
+      benefits:        ["1 point per $1 spent", "Birthday reward", "Early access to seasonal menus"],
+      color:           "#9DC183",
     },
     {
-      name:             "Sprout",
-      pointsRequired:   200,
-      benefits:         ["1.25 points per $1 spent", "Free drink size upgrade", "Monthly surprise treat", "Exclusive member events"],
-      color:            "#7CB342",
+      name:            "Sprout",
+      pointsRequired:  200,
+      benefits:        ["1.25 points per $1 spent", "Free drink size upgrade", "Monthly surprise treat", "Exclusive member events"],
+      color:           "#7CB342",
     },
     {
-      name:             "Blossom",
-      pointsRequired:   500,
-      benefits:         ["1.5 points per $1 spent", "Free pastry every visit", "Priority event seating", "20% off merchandise"],
-      color:            "#F8B4C4",
+      name:            "Blossom",
+      pointsRequired:  500,
+      benefits:        ["1.5 points per $1 spent", "Free pastry every visit", "Priority event seating", "20% off merchandise"],
+      color:           "#F8B4C4",
     },
     {
-      name:             "Full Bloom",
-      pointsRequired:   1000,
-      benefits:         ["2 points per $1 spent", "Complimentary drink daily", "Private tasting invitations", "Annual catering discount", "Name a seasonal drink"],
-      color:            "#FFD700",
+      name:            "Full Bloom",
+      pointsRequired:  1000,
+      benefits:        ["2 points per $1 spent", "Complimentary drink daily", "Private tasting invitations", "Annual catering discount", "Name a seasonal drink"],
+      color:           "#FFD700",
     },
   ],
 
@@ -768,11 +1025,11 @@ export const siteConfig: SiteConfig = {
 
   // ── Order Settings ────────────────────────────────────────
   orderSettings: {
-    minPickupTime:        15,
-    maxAdvanceOrderDays:  7,
-    acceptsDelivery:      true,
-    deliveryFee:          5,
-    freeDeliveryMinimum:  35,
+    minPickupTime:       15,
+    maxAdvanceOrderDays: 7,
+    acceptsDelivery:     true,
+    deliveryFee:         5,
+    freeDeliveryMinimum: 35,
   },
 }
 
@@ -808,9 +1065,27 @@ export function getMenuByCategory() {
   }, {} as Record<string, typeof siteConfig.menuItems>)
 }
 
-export function getUpcomingEvents() {
-  const today = new Date().toISOString().split("T")[0]
-  return siteConfig.events
-    .filter(e => e.date >= today)
-    .sort((a, b) => a.date.localeCompare(b.date))
+export function getUpcomingEvents(limit?: number) {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const upcoming = siteConfig.events
+    .filter(e => new Date(e.date) >= today)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  return limit ? upcoming.slice(0, limit) : upcoming
+}
+
+export const eventTypeLabels: Record<string, string> = {
+  music:     "Live Music",
+  workshop:  "Workshop",
+  tasting:   "Tasting",
+  seasonal:  "Seasonal",
+  community: "Community",
+}
+
+export const eventTypeColors: Record<string, string> = {
+  music:     "bg-purple-100 text-purple-800",
+  workshop:  "bg-blue-100 text-blue-800",
+  tasting:   "bg-amber-100 text-amber-800",
+  seasonal:  "bg-green-100 text-green-800",
+  community: "bg-rose-100 text-rose-800",
 }
