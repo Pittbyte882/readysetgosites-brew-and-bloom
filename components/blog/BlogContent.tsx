@@ -1,65 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import { siteConfig } from "@/config/site"
-
-// Add blog posts to config/site.ts when ready.
-// For now this renders placeholder posts buyers can replace.
-const placeholderPosts = [
-  {
-    id: "1",
-    title: "The Art of Seasonal Coffee",
-    excerpt: "How we craft our menus around nature's rhythms and what's in bloom.",
-    date: "2026-03-01",
-    category: "Behind the Bar",
-    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
-    author: "Elena Rosewood",
-  },
-  {
-    id: "2",
-    title: "Why We Choose Local: Our Supplier Story",
-    excerpt: "Meet the farmers and roasters behind every cup at Brew & Bloom.",
-    date: "2026-02-15",
-    category: "Our Story",
-    image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80",
-    author: "Marcus Chen",
-  },
-  {
-    id: "3",
-    title: "Spring Menu Sneak Peek",
-    excerpt: "Get an early look at what floral flavors are coming to our spring lineup.",
-    date: "2026-02-01",
-    category: "Seasonal",
-    image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&q=80",
-    author: "Elena Rosewood",
-  },
-  {
-    id: "4",
-    title: "Hosting the Perfect Botanical Gathering",
-    excerpt: "Tips from our events team on creating a memorable café-style experience at home.",
-    date: "2026-01-20",
-    category: "Tips & Guides",
-    image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&q=80",
-    author: "James Wright",
-  },
-  {
-    id: "5",
-    title: "Cold Brew at Home: Our Method",
-    excerpt: "Step-by-step guide to making smooth, café-quality cold brew in your own kitchen.",
-    date: "2026-01-05",
-    category: "Behind the Bar",
-    image: "https://images.unsplash.com/photo-1531835207745-506a1bc035d8?w=800&q=80",
-    author: "Elena Rosewood",
-  },
-  {
-    id: "6",
-    title: "The Botanicals We Love This Season",
-    excerpt: "Sofia shares her favorite flowers and herbs that inspire our current menu.",
-    date: "2025-12-15",
-    category: "Seasonal",
-    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80",
-    author: "Sofia Mendez",
-  },
-]
+import { cn } from "@/lib/utils"
 
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -68,7 +11,19 @@ function formatDate(dateString: string) {
 }
 
 export function BlogContent() {
-  const [featured, ...rest] = placeholderPosts
+  const [activeCategory, setActiveCategory] = useState("All")
+
+  const filtered = activeCategory === "All"
+    ? siteConfig.blogPosts
+    : siteConfig.blogPosts.filter(p => p.category === activeCategory)
+
+  const sorted = [...filtered].sort(
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  )
+
+  const [featured, ...rest] = sorted
+
+  if (!featured) return null
 
   return (
     <>
@@ -84,6 +39,28 @@ export function BlogContent() {
           <p className="text-muted-foreground max-w-xl mx-auto">
             Stories, seasonal updates, recipes, and musings from the people behind every cup.
           </p>
+        </div>
+      </section>
+
+      {/* Category filter */}
+      <section className="py-6 border-b sticky top-16 bg-background/95 backdrop-blur-sm z-30">
+        <div className="container-botanical">
+          <div className="flex flex-wrap gap-2">
+            {siteConfig.blogCategories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={cn(
+                  "px-4 py-2 rounded-full text-sm font-medium transition-all",
+                  activeCategory === cat
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted hover:bg-muted/80 text-muted-foreground"
+                )}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -107,10 +84,24 @@ export function BlogContent() {
               </h2>
               <p className="text-muted-foreground mb-4">{featured.excerpt}</p>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                <span>{featured.author}</span>
+                <span>{featured.author.name}</span>
                 <span>·</span>
-                <span>{formatDate(featured.date)}</span>
+                <span>{formatDate(featured.publishedAt)}</span>
+                <span>·</span>
+                <span>{featured.readTime} min read</span>
               </div>
+              {featured.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {featured.tags.map(tag => (
+                    <span
+                      key={tag}
+                      className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -119,38 +110,46 @@ export function BlogContent() {
       {/* Post grid */}
       <section className="py-12">
         <div className="container-botanical">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {rest.map((post) => (
-              <div
-                key={post.id}
-                className="group flex flex-col rounded-2xl overflow-hidden bg-card border hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer"
-              >
-                <div className="aspect-[16/10] overflow-hidden">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="flex flex-col flex-1 p-5">
-                  <span className="text-xs font-medium text-primary uppercase tracking-wider mb-2">
-                    {post.category}
-                  </span>
-                  <h3 className="font-serif text-lg font-semibold mb-2 group-hover:text-primary transition-colors flex-1">
-                    {post.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                    {post.excerpt}
-                  </p>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground border-t pt-4">
-                    <span>{post.author}</span>
-                    <span>·</span>
-                    <span>{formatDate(post.date)}</span>
+          {rest.length === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">
+              No more posts in this category.
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {rest.map((post) => (
+                <div
+                  key={post.id}
+                  className="group flex flex-col rounded-2xl overflow-hidden bg-card border hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                >
+                  <div className="aspect-[16/10] overflow-hidden">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="flex flex-col flex-1 p-5">
+                    <span className="text-xs font-medium text-primary uppercase tracking-wider mb-2">
+                      {post.category}
+                    </span>
+                    <h3 className="font-serif text-lg font-semibold mb-2 group-hover:text-primary transition-colors flex-1">
+                      {post.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                      {post.excerpt}
+                    </p>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground border-t pt-4">
+                      <span>{post.author.name}</span>
+                      <span>·</span>
+                      <span>{formatDate(post.publishedAt)}</span>
+                      <span>·</span>
+                      <span>{post.readTime} min read</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </>

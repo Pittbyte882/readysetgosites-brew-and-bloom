@@ -162,7 +162,25 @@ export interface SiteConfig {
       description: string
     }[]
   }
-
+// ── Blog ──────────────────────────────────────────────────
+blogCategories: string[]
+blogPosts: {
+  id: string
+  slug: string
+  title: string
+  excerpt: string
+  content: string
+  category: string
+  image: string
+  author: {
+    name: string
+    avatar: string | null
+  }
+  publishedAt: string
+  readTime: number
+  tags: string[]
+  featured?: boolean
+}[]
   // ── Menu ──────────────────────────────────────────────────
   menuCategories: string[]
   dietaryOptions: string[]
@@ -618,6 +636,7 @@ export const siteConfig: SiteConfig = {
       category: "Interior",
     },
 
+    
     // ── Drinks ──
     {
       id:       "drinks-1",
@@ -679,7 +698,7 @@ export const siteConfig: SiteConfig = {
       category: "Food",
       caption:  "Rose Pistachio Cheesecake",
     },
-
+    
     // ── Events ──
     {
       id:       "events-1",
@@ -735,7 +754,113 @@ export const siteConfig: SiteConfig = {
       caption:  "Winter wonderland indoors",
     },
   ],
-
+// ── Blog ──────────────────────────────────────────────────
+// To add/edit posts: update this array. image should be a full URL.
+blogCategories: ["All", "Seasonal", "Behind the Bar", "Our Story", "Tips & Guides", "News & Updates", "Recipes", "Coffee Education", "Community"],
+blogPosts: [
+  {
+    id:       "1",
+    slug:     "spring-menu-2026",
+    title:    "Introducing Our Spring 2026 Menu",
+    excerpt:  "Cherry blossoms, fresh botanicals, and the flavors of renewal — discover what's blooming this spring.",
+    content:  `Spring has arrived, and with it comes a fresh chapter in our seasonal journey. We're thrilled to unveil our Spring 2026 menu, a celebration of delicate flavors, floral notes, and the renewal that this beautiful season brings.\n\nOur headliner this spring is the Cherry Blossom Latte — a dreamy creation that captures the essence of sakura season. We've sourced authentic cherry blossom syrup, paired it with our house espresso, and topped each cup with real dried sakura petals.\n\nChef Marcus has also added Lemon Ricotta Pancakes, a Spring Pea Tartine, and a Strawberry Rhubarb Scone to the food menu. We're celebrating the launch on March 21st with a party featuring complimentary samples and live acoustic music.`,
+    category: "Seasonal",
+    image:    "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+    author: {
+      name:   "Elena Rosewood",
+      avatar: null,
+    },
+    publishedAt: "2026-03-15",
+    readTime:    4,
+    tags:        ["spring", "new menu", "cherry blossom", "seasonal"],
+    featured:    true,
+  },
+  {
+    id:       "2",
+    slug:     "perfect-pour-over-guide",
+    title:    "The Perfect Pour Over: A Step-by-Step Guide",
+    excerpt:  "Master the art of pour over coffee at home with our guide to technique, equipment, and timing.",
+    content:  `There's something meditative about making pour over coffee. The ritual of heating water, grinding beans, and the slow deliberate pour transforms a morning routine into a mindful practice.\n\nUse a 1:16 ratio — 1 gram of coffee to 16 grams of water. For a standard cup that's 20g coffee to 320g water at 200-205°F.\n\nStart by rinsing your filter, then grind beans to a medium-fine consistency. Pour just enough water to saturate the grounds and let the coffee bloom for 30-45 seconds as CO2 releases. Then pour in slow concentric circles for a total brew time of 3-4 minutes.\n\nPro tips: use filtered water, always grind fresh, and clean your equipment regularly. Stop by and ask any of our baristas for a live demonstration!`,
+    category: "Coffee Education",
+    image:    "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80",
+    author: {
+      name:   "Elena Rosewood",
+      avatar: null,
+    },
+    publishedAt: "2026-02-28",
+    readTime:    6,
+    tags:        ["brewing", "pour over", "coffee education", "home brewing"],
+    featured:    true,
+  },
+  {
+    id:       "3",
+    slug:     "meet-our-farmers",
+    title:    "Meet Our Farmers: The Mendoza Family of Colombia",
+    excerpt:  "A journey to the Huila region to meet the family behind our beloved Colombian single-origin beans.",
+    content:  `Last month I had the privilege of visiting Finca El Paraíso in Colombia's Huila region — the source of our beloved Colombian single-origin. The Mendoza family has been growing coffee for three generations.\n\nCarlos Mendoza walked me through their process: selective hand-picking of only ripe red cherries, natural processing with cherries dried whole on raised beds for 20-25 days, and careful sorting for consistency. The result is those beautiful notes of dark chocolate, caramel, and citrus.\n\nWe pay the Mendoza family 40% above fair trade prices because they deserve it. This premium allows Carlos to provide healthcare for all workers, send his children to university, and invest in sustainable farming practices.\n\nWe're planning a limited release of their Geisha variety this summer — stay tuned!`,
+    category: "Community",
+    image:    "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80",
+    author: {
+      name:   "Elena Rosewood",
+      avatar: null,
+    },
+    publishedAt: "2026-02-15",
+    readTime:    5,
+    tags:        ["origin story", "colombia", "direct trade", "farmers"],
+    featured:    false,
+  },
+  {
+    id:       "4",
+    slug:     "lavender-honey-latte-recipe",
+    title:    "Recipe: Our Famous Lavender Honey Latte at Home",
+    excerpt:  "By popular demand, we're sharing our recipe for the lavender honey latte that started it all.",
+    content:  `You asked, we're finally answering! Here's how to make our Lavender Honey Latte at home.\n\nFor the lavender syrup: combine 1 cup water, 1 cup sugar, and 2 tablespoons dried culinary lavender. Heat until sugar dissolves, simmer 10 minutes, steep 30 minutes, then strain. Keeps refrigerated for 2 weeks.\n\nFor the latte: brew 2 shots espresso, add 1 tablespoon lavender syrup and 1 tablespoon honey to the bottom of your cup, pour in the espresso and stir, then top with steamed frothed milk. Garnish with dried lavender buds.\n\nChef notes: always use culinary lavender, local wildflower honey adds complexity, and oat milk froths beautifully. For iced, shake espresso, syrup, and honey with ice before adding cold milk.\n\nTag us in your creations @brewandbloom!`,
+    category: "Recipes",
+    image:    "https://media.istockphoto.com/id/1396335735/photo/a-cup-of-lavender-moon-tea-latte-with-mousse-of-milk.webp?a=1&b=1&s=612x612&w=0&k=20&c=qHWurviCSnmR9SonuU6oEgaEL2bnLvFn--K3X1LA_vE=",
+    author: {
+      name:   "Elena Rosewood",
+      avatar: null,
+    },
+    publishedAt: "2026-02-01",
+    readTime:    4,
+    tags:        ["recipe", "lavender", "latte", "DIY"],
+    featured:    true,
+  },
+  {
+    id:       "5",
+    slug:     "expanding-our-space",
+    title:    "Big News: We're Expanding Our Garden Patio",
+    excerpt:  "This summer we're doubling our outdoor seating with a new garden patio and dedicated event space.",
+    content:  `We've been bursting at the seams — the best kind of problem — and we're thrilled to announce a major expansion coming this summer.\n\nWe've acquired the lot adjacent to our building and are transforming it into a lush garden patio that will double our outdoor seating from 20 to 40 seats, add a covered pergola for year-round enjoyment, create a dedicated event space for private parties and workshops, and expand our garden with raised beds growing herbs we'll use in the kitchen.\n\nWorking with local landscape architect Maya Torres, we're creating winding stone pathways, vertical gardens and living walls, a water feature centerpiece, and string lights for evening ambiance.\n\nTimeline: construction begins April-May, soft opening June 1st, and grand opening celebration on June 20th. We'll be documenting the entire process on our Instagram stories!`,
+    category: "News & Updates",
+    image:    "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80",
+    author: {
+      name:   "Elena Rosewood",
+      avatar: null,
+    },
+    publishedAt: "2026-03-01",
+    readTime:    3,
+    tags:        ["news", "expansion", "garden", "events"],
+    featured:    false,
+  },
+  {
+    id:       "6",
+    slug:     "understanding-coffee-roasts",
+    title:    "Light, Medium, Dark: Understanding Coffee Roasts",
+    excerpt:  "Confused by roast levels? Here's everything you need to know about how roasting affects your cup.",
+    content:  `Here's a little secret: dark roast coffee actually has less caffeine than light roast! Let's debunk myths and dive into the wonderful world of coffee roasts.\n\nLight roast is light brown with no surface oil, highest acidity and caffeine, and lets origin flavors shine through — expect fruity, floral, and tea-like notes.\n\nMedium roast is the sweet spot — balanced acidity and body with flavors of caramel, nuts, and chocolate. Our House Bloom blend is a medium roast with notes of milk chocolate, caramel, and a hint of citrus.\n\nDark roast is dark brown to nearly black with an oily surface, lowest acidity and caffeine, and bold smoky flavors that dominate.\n\nVisit us to try all three roast levels side by side — it's the best way to discover your preference!`,
+    category: "Coffee Education",
+    image:    "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80",
+    author: {
+      name:   "Elena Rosewood",
+      avatar: null,
+    },
+    publishedAt: "2026-01-20",
+    readTime:    5,
+    tags:        ["coffee education", "roasting", "brewing basics"],
+    featured:    false,
+  },
+],
   // ── Events ────────────────────────────────────────────────
   // To swap event images: replace the image URL. Use null for no image (shows gradient placeholder).
   events: [
